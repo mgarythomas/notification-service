@@ -1,0 +1,7 @@
+dependencies {
+    // DuckDB for querying CSV logs
+    implementation 'org.duckdb:duckdb_jdbc:0.10.0'
+    implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+    // CSV parsing
+    implementation 'com.opencsv:opencsv:5.9'
+}
