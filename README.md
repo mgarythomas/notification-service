@@ -9,7 +9,33 @@ The system uses a highly integrated VPC architecture to route internal events se
 ### Web & Network Topology
 
 - **Internal VPC**: Contains the Internal API Gateway and the EKS cluster running the core Java 21 Spring Boot Notification Service.
-- **Routing Flow**: Internal request ➔ Internal API Gateway ➔ Spring Boot services on EKS.
+- **Routing Flow**: Internal request ➔ Internal API Gateway ➔ ALB Ingress Controller ➔ Spring Boot services on EKS.
+
+### Data Flow Diagram
+
+```mermaid
+sequenceDiagram
+    participant ReactClient as React Client
+    participant NextJS as SSR NextJS
+    participant DMZ_APIGW as DMZ API Gateway
+    participant TS_Lambda as TS Lambda (DMZ)
+    participant Internal_APIGW as Internal API Gateway
+    participant ALB_Ingress as ALB Ingress (EKS)
+    participant NotificationService as Notification Service (EKS)
+
+    ReactClient->>NextJS: Initiate Request
+    NextJS->>DMZ_APIGW: Call DMZ API
+    DMZ_APIGW->>TS_Lambda: Trigger Lambda
+    TS_Lambda->>Internal_APIGW: Forward to Internal
+    Internal_APIGW->>ALB_Ingress: Route to Cluster
+    ALB_Ingress->>NotificationService: Generate Notification
+    NotificationService-->>ALB_Ingress: Response
+    ALB_Ingress-->>Internal_APIGW: Response
+    Internal_APIGW-->>TS_Lambda: Response
+    TS_Lambda-->>DMZ_APIGW: Response
+    DMZ_APIGW-->>NextJS: Response
+    NextJS-->>ReactClient: Render View
+```
 
 ### Core Architecture Components
 
