@@ -38,9 +38,21 @@ out/
 ### macOS ###
 .DS_Store
 
+<<<<<<< HEAD
 ### Node ###
 node_modules/
 
 ### Terraform ###
 .terraform/
 *.tfstate
+=======
+# Terraform
+**/.terraform/*
+*.tfstate
+*.tfstate.*
+crash.log
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+>>>>>>> df056ca (Updates to gitignore)
