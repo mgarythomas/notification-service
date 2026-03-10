@@ -4,8 +4,6 @@ info:
   version: 1.0.0
   description: API for the enterprise Notification Service for routing messages across multiple delivery channels.
 servers:
-  - url: https://api.dmz.example.com/v1
-    description: External DMZ API Gateway
   - url: http://internal-api.example.local/v1
     description: Internal API Gateway
 
@@ -16,6 +14,8 @@ paths:
         type: http_proxy
         httpMethod: POST
         uri: http://notification-service.internal/notifications
+        connectionType: VPC_LINK
+        connectionId: "${vpc_link_id}"
       summary: Send a single notification
       description: Submit a single notification request specifying channel, destination, and template context.
       operationId: sendSingleNotification
@@ -43,6 +43,8 @@ paths:
         type: http_proxy
         httpMethod: POST
         uri: http://notification-service.internal/notifications/batch
+        connectionType: VPC_LINK
+        connectionId: "${vpc_link_id}"
       summary: Send multiple notifications
       description: Submit an array of notifications to be processed in a single batch.
       operationId: sendBatchNotifications
@@ -71,6 +73,8 @@ paths:
         type: http_proxy
         httpMethod: POST
         uri: http://notification-service.internal/users/{userId}/notifications
+        connectionType: VPC_LINK
+        connectionId: "${vpc_link_id}"
       summary: Generate a user notification
       description: Create a notification or alert registered against an individual user.
       operationId: createUserNotification
@@ -104,6 +108,8 @@ paths:
         type: http_proxy
         httpMethod: GET
         uri: http://notification-service.internal/users/{userId}/notifications
+        connectionType: VPC_LINK
+        connectionId: "${vpc_link_id}"
       summary: Get user notifications
       description: Retrieve notifications and alerts for a specific user.
       operationId: getUserNotifications
@@ -132,6 +138,8 @@ paths:
         type: http_proxy
         httpMethod: DELETE
         uri: http://notification-service.internal/users/{userId}/notifications/{notificationId}
+        connectionType: VPC_LINK
+        connectionId: "${vpc_link_id}"
       summary: Delete a user notification
       description: Deletes a specific notification for a user.
       operationId: deleteUserNotification
