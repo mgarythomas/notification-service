@@ -37,3 +37,10 @@ out/
 
 ### macOS ###
 .DS_Store
+
+### Node ###
+node_modules/
+
+### Terraform ###
+.terraform/
+*.tfstate
